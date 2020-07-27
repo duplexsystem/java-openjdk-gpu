@@ -21,7 +21,7 @@ FROM centos:latest
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
 
-RUN yum install -y tzdata openssl curl ca-certificates fontconfig gzip tar \
+RUN yum install -y tzdata openssl curl ca-certificates fontconfig gzip tar git tar sqlite iproute2\
     && yum update -y; yum clean all
 
 ENV JAVA_VERSION jdk-14.0.2+12_openj9-0.21.0
@@ -60,7 +60,6 @@ RUN set -eux; \
     mkdir -p /opt/java/openjdk; \
     cd /opt/java/openjdk; \
     tar -xf /tmp/openjdk.tar.gz --strip-components=1; \
-	dnf install ca-certificates openssl git tar sqlite fontconfig tzdata iproute2 \
     rm -rf /tmp/openjdk.tar.gz \
     rm -rf /var/cache/yum/* \
 	adduser container;
