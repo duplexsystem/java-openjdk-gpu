@@ -54,9 +54,9 @@ RUN set -eux; \
     echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c -; \
     mkdir -p /opt/java/openjdk; \
     cd /opt/java/openjdk; \
-    tar -xf /tmp/openjdk.tar.gz --strip-components=1 \
-    rm -rf /tmp/openjdk.tar.gz \ 
-    rm -rf /var/cache/yum/* \
+    tar -xf /tmp/openjdk.tar.gz --strip-components=1; \
+    rm -rf /tmp/openjdk.tar.gz; \ 
+    rm -rf /var/cache/yum/*; \
     adduser container;
 
 ENV JAVA_HOME=/opt/java/openjdk \
