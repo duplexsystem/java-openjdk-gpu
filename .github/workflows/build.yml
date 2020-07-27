@@ -1,1 +1,29 @@
+on:
+  push:
+    paths-ignore:
+      - '*.md'
 
+jobs:
+  build_job:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v2.3.1
+          
+        - name: setup-docker
+          uses: docker-practice/actions-setup-docker@0.0.1
+          
+        - name: Build Project
+          run: |
+            docker build --squash ./java-openjdk-gpu -t local/adoptopenjdk14-cuda-openj9xl-centos-slim
+            curl https://downloads.dockerslim.com/releases/1.29.0/dist_linux.tar.gz
+            tar xvzf dist_linux.tar.gz
+            sudo ./dist_linux/docker-slim build local/adoptopenjdk14-cuda-openj9xl-centos-slim --http-probe=false --in-container --continue-after
+            docker tag local/adoptopenjdk14-cuda-openj9xl-centos-slim.slim bgidiere/adoptopenjdk14-cuda-openj9xl-centos-slim
+            docker push bgidiere/adoptopenjdk14-cuda-openj9xl-centos-slim:$(git rev-parse --short "$GITHUB_SHA")
+            
+            
+
+
+            
