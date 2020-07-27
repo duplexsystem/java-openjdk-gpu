@@ -10,31 +10,10 @@ jobs:
     steps:
         - name: Checkout
           uses: actions/checkout@v2.3.1
-          
-        - name: Setup Docker
-          uses: docker-practice/actions-setup-docker@0.0.1
-
-        - name: Enable Expermental For Squash, copy Nvidia repos and give scripts perms.
-          run: |
-            sudo chmod +X ./*.sh
-            sudo cp ./daemon.json /etc/docker/daemon.json
-            sudo systemctl restart docker 
-
-        - name: Build Main Image
-          uses: whoan/docker-build-with-cache-action@v5
+        - name: Build and push Docker images
+          uses: docker/build-push-action@v1.1.0
           with: 
-            image_name: local/adoptopenjdk14-cuda-openj9xl-centos
-            push_image_and_stages: false
-            dockerfile: ./Dockerfile
-            build_extra_args: --compress
-
-        - name: Slim Image
-          run: |
-            curl https://downloads.dockerslim.com/releases/1.29.0/dist_linux.tar.gz -o dist_linux.tar.gz
-            docker images
-            tar -xf dist_linux.tar.gz
-            sudo chmod +x ./dist_linux/docker-slim
-            ./dist_linux/docker-slim build --keep-perms --http-probe=false --continue-after=0 --tag=local/adoptopenjdk14-cuda-openj9xl-centos-slim local/adoptopenjdk14-cuda-openj9xl-centos       
+            repository: bgidiere/adoptopenjdk14-cuda-openj9xl-centos-slim
           
         #- name: Run the local Anchore scan action itself with GitHub Advanced Security code scanning integration enabled
           #uses: anchore/scan-action@master
@@ -50,10 +29,7 @@ jobs:
           #with:
             #sarif_file: results.sarif
           
-        - name: Upload Docker file
-          run: |
-            docker tag local/adoptopenjdk14-cuda-openj9xl-centos bgidiere/adoptopenjdk14-cuda-openj9xl-centos-slim
-            docker push bgidiere/adoptopenjdk14-cuda-openj9xl-centos-slim:latest
+
             
             
 
