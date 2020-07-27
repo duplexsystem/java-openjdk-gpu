@@ -19,6 +19,7 @@ jobs:
             cd ..//
             docker build ./java-openjdk-gpu -t bgidiere/adoptopenjdk14-cuda-openj9xl-centos-slim
             curl https://downloads.dockerslim.com/releases/1.29.0/dist_linux.tar.gz -o dist_linux.tar.gz
+            docker images
             tar -xf dist_linux.tar.gz
             sudo chmod +x ./dist_linux/docker-slim
             sudo ./dist_linux/docker-slim build bgidiere/adoptopenjdk14-cuda-openj9xl-centos-slim --http-probe=false --continue-after
