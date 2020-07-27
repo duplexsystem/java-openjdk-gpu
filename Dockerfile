@@ -31,6 +31,11 @@ ENV NCCL_VERSION 2.7.6
 COPY slim-java* /usr/local/bin/
 
 RUN set -eux; \
+	export LANGUAGE=en_US.UTF-8 \
+	export LANG=en_US.UTF-8 \
+	export LC_ALL=en_US.UTF-8 \
+	locale-gen en_US.UTF-8 \
+	dpkg-reconfigure locales \
     ARCH="$(uname -m)"; \
     case "${ARCH}" in \
        ppc64el|ppc64le) \
