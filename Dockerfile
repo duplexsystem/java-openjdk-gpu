@@ -21,6 +21,8 @@ FROM centos:latest
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en'
 
+LABEL       author="Bud Gidiere" maintainer="bgidiere"
+
 RUN yum install -y tzdata openssl curl ca-certificates fontconfig gzip tar git tar sqlite iproute2 cuda-libraries-11-0-11.0.2-1 cuda-nvtx-11-0-11.0.167-1 libnpp-11-0-11.1.0.218-1 libcublas-11-0-11.1.0.229-1 libnccl-2.7.6-1+cuda11.0 \
     && yum update -y; yum clean all
 
