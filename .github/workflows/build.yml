@@ -17,8 +17,9 @@ jobs:
         - name: Init CUDA Submodule
           run: git submodule update --init
 
-        - name: Enable Expermental For Squash and copy Nvidia repos
+        - name: Enable Expermental For Squash, copy Nvidia repos and give scripts perms.
           run: |
+            sudo chmod +X ./*.sh
             sudo cp ./cuda/dist/11.0/centos8-x86_64/base/cuda.repo ./cuda.repo
             sudo cp ./cuda/dist/11.0/centos8-x86_64/base/nvidia-ml.repo ./nvidia-ml.repo
             sudo cp ./daemon.json /etc/docker/daemon.json
@@ -31,11 +32,21 @@ jobs:
             push_image_and_stages: false
             dockerfile: ./cuda/dist/11.0/centos8-x86_64/base/Dockerfile
             image_tag: 11.0-base-centos8
-          
+
+        - name: Slim Base CUDA Image
+          run: |
+            curl https://downloads.dockerslim.com/releases/1.29.0/dist_linux.tar.gz -o dist_linux.tar.gz
+            docker images
+            tar -xf dist_linux.tar.gz
+            sudo chmod +x ./dist_linux/docker-slim
+            cd ./cuda/dist/11.0/centos8-x86_64/base/
+            ./dist_linux/docker-slim build --keep-perms --http-probe=false --continue-after=0 --tag=nvidia/cudaslim:11.0-base-centos8 nvidia/cuda:11.0-base-centos8          
+            cd ..//..//..//..//..//
+  
         - name: Build Nvidia CUDA Runtime
           uses: whoan/docker-build-with-cache-action@v5
           with: 
-            image_name: nvidia/cuda
+            image_name: nvidia/cudaslim
             push_image_and_stages: false
             dockerfile: ./cuda/dist/11.0/centos8-x86_64/runtime/Dockerfile
             build_extra_args: --build-arg IMAGE_NAME=nvidia/cuda
@@ -48,14 +59,6 @@ jobs:
             push_image_and_stages: false
             dockerfile: ./Dockerfile
             build_extra_args: --squash --compress
-          
-        - name: Slim Image
-          run: |
-            curl https://downloads.dockerslim.com/releases/1.29.0/dist_linux.tar.gz -o dist_linux.tar.gz
-            docker images
-            tar -xf dist_linux.tar.gz
-            sudo chmod +x ./dist_linux/docker-slim
-            ./dist_linux/docker-slim build --http-probe=false --continue-after=0 --tag=local/adoptopenjdk14-cuda-openj9xl-centos-slim local/adoptopenjdk14-cuda-openj9xl-centos
           
         - name: Run the local Anchore scan action itself with GitHub Advanced Security code scanning integration enabled
           uses: anchore/scan-action@master
