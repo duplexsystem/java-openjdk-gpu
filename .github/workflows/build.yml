@@ -13,17 +13,17 @@ jobs:
           
         - name: setup-docker
           uses: docker-practice/actions-setup-docker@0.0.1
-          
+        - name: Build docker images using cache
+          uses: whoan/docker-build-with-cache-action@v5
+          with: 
+            image_name: local/adoptopenjdk14-cuda-openj9xl-centos       
         - name: Build Project
           run: |
-            cd ..//
-            docker build ./java-openjdk-gpu -t local/adoptopenjdk14-cuda-openj9xl-centos:latest
             curl https://downloads.dockerslim.com/releases/1.29.0/dist_linux.tar.gz -o dist_linux.tar.gz
             docker images
             tar -xf dist_linux.tar.gz
             sudo chmod +x ./dist_linux/docker-slim
             sudo ./dist_linux/docker-slim build --http-probe=false --continue-after=0 local/adoptopenjdk14-cuda-openj9xl-centos:latest
-            cd java-openjdk-gpu
             docker tag local/adoptopenjdk14-cuda-openj9xl-centos.slim:latest local/adoptopenjdk14-cuda-openj9xl-centos-slim:latest
         - name: Run the local Anchore scan action itself with GitHub Advanced Security code scanning integration enabled
           uses: anchore/scan-action@master
@@ -31,6 +31,8 @@ jobs:
             image-reference: "local/adoptopenjdk14-cuda-openj9xl-centos-slim:latest"
             dockerfile-path: "Dockerfile"
             acs-report-enable: true
+            include-app-packages: true
+            debug: true 
         - name: Upload Anchore Scan Report
           uses: github/codeql-action/upload-sarif@v1
           with:
