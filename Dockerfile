@@ -19,7 +19,7 @@
 
 FROM centos:latest
 
-ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
+ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en'
 
 RUN yum install -y tzdata openssl curl ca-certificates fontconfig gzip tar git tar sqlite iproute2\
     && yum update -y; yum clean all
