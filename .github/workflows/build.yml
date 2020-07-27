@@ -13,15 +13,10 @@ jobs:
           
         - name: Setup Docker
           uses: docker-practice/actions-setup-docker@0.0.1
-        
-        - name: Init CUDA Submodule
-          run: git submodule update --init
 
         - name: Enable Expermental For Squash, copy Nvidia repos and give scripts perms.
           run: |
             sudo chmod +X ./*.sh
-            sudo cp ./cuda/dist/11.0/centos8-x86_64/base/cuda.repo ./cuda.repo
-            sudo cp ./cuda/dist/11.0/centos8-x86_64/base/nvidia-ml.repo ./nvidia-ml.repo
             sudo cp ./daemon.json /etc/docker/daemon.json
             sudo systemctl restart docker 
 
