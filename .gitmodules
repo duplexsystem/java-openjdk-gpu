@@ -1,3 +1,0 @@
-[submodule "cuda"]
-	path = cuda
-	url = https://gitlab.com/nvidia/container-images/cuda.git
