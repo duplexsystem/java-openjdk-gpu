@@ -16,7 +16,8 @@ jobs:
         - name: Build docker images using cache
           uses: whoan/docker-build-with-cache-action@v5
           with: 
-            image_name: local/adoptopenjdk14-cuda-openj9xl-centos       
+            image_name: local/adoptopenjdk14-cuda-openj9xl-centos
+            push_image_and_stages: false
         - name: Build Project
           run: |
             curl https://downloads.dockerslim.com/releases/1.29.0/dist_linux.tar.gz -o dist_linux.tar.gz
