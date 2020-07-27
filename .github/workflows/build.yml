@@ -44,10 +44,10 @@ jobs:
         - name: Build Main Image
           uses: whoan/docker-build-with-cache-action@v5
           with: 
-            image_name: local/adoptopenjdk14-cuda-openj9xl-centos:latest
+            image_name: local/adoptopenjdk14-cuda-openj9xl-centos
             push_image_and_stages: false
             dockerfile: ./Dockerfile
-            build_extra_args: --squash
+            build_extra_args: --squash --compress
           
         - name: Slim Image
           run: |
@@ -55,7 +55,7 @@ jobs:
             docker images
             tar -xf dist_linux.tar.gz
             sudo chmod +x ./dist_linux/docker-slim
-            sudo ./dist_linux/docker-slim build --http-probe=false --continue-after=0 --tag=local/adoptopenjdk14-cuda-openj9xl-centos-slim local/adoptopenjdk14-cuda-openj9xl-centos
+            ./dist_linux/docker-slim build --http-probe=false --continue-after=0 --tag=local/adoptopenjdk14-cuda-openj9xl-centos-slim local/adoptopenjdk14-cuda-openj9xl-centos
           
         - name: Run the local Anchore scan action itself with GitHub Advanced Security code scanning integration enabled
           uses: anchore/scan-action@master
