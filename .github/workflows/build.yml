@@ -49,7 +49,7 @@ jobs:
             image_name: nvidia/cudaslim
             push_image_and_stages: false
             dockerfile: ./cuda/dist/11.0/centos8-x86_64/runtime/Dockerfile
-            build_extra_args: --build-arg IMAGE_NAME=nvidia/cuda
+            build_extra_args: --build-arg IMAGE_NAME=nvidia/cudaslim
             image_tag: 11.0-runtime-centos8
           
         - name: Build Main Image
