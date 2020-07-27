@@ -34,7 +34,6 @@ RUN set -eux; \
     ARCH="$(uname -m)"; \
     ESUM='ccfc3ad03d168fc8c097f8e3947d865e6f7f1acfc63c0ded67eac091c83699c5'; \
     BINARY_URL='https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.2%2B12_openj9-0.21.0/OpenJDK14U-jdk_x64_linux_openj9_linuxXL_14.0.2_12_openj9-0.21.0.tar.gz'; \      
-    esac; \
     curl -LfsSo /tmp/openjdk.tar.gz ${BINARY_URL}; \
     echo "${ESUM} */tmp/openjdk.tar.gz" | sha256sum -c -; \
     mkdir -p /opt/java/openjdk; \
