@@ -17,16 +17,16 @@ jobs:
         - name: Build Project
           run: |
             cd ..//
-            docker build ./java-openjdk-gpu -t local/adoptopenjdk14-cuda-openj9xl-centos-slim
+            docker build ./java-openjdk-gpu -t bgidiere/adoptopenjdk14-cuda-openj9xl-centos-slim-local
             curl https://downloads.dockerslim.com/releases/1.29.0/dist_linux.tar.gz -o dist_linux.tar.gz
             tar -xf dist_linux.tar.gz
             sudo chmod +x ./dist_linux/docker-slim
-            sudo ./dist_linux/docker-slim build local/adoptopenjdk14-cuda-openj9xl-centos-slim --http-probe=false --continue-after
+            sudo ./dist_linux/docker-slim build bgidiere/adoptopenjdk14-cuda-openj9xl-centos-slim-local --http-probe=false --continue-after
             cd java-openjdk-gpu
         - name: Run the local Anchore scan action itself with GitHub Advanced Security code scanning integration enabled
           uses: anchore/scan-action@master
           with:
-            image-reference: "local/adoptopenjdk14-cuda-openj9xl-centos-slim.slim"
+            image-reference: "bgidiere/adoptopenjdk14-cuda-openj9xl-centos-slim-local.slim"
             dockerfile-path: "Dockerfile"
             acs-report-enable: true
         - name: Upload Anchore Scan Report
@@ -35,8 +35,8 @@ jobs:
             sarif_file: results.sarif
         - name: Upload Docker file
           run: |
-            docker tag local/adoptopenjdk14-cuda-openj9xl-centos-slim.slim bgidiere/adoptopenjdk14-cuda-openj9xl-centos-slim
-            docker push bgidiere/adoptopenjdk14-cuda-openj9xl-centos-slim:$(git rev-parse --short "$GITHUB_SHA")
+            docker tag bgidiere/adoptopenjdk14-cuda-openj9xl-centos-slim-local.slim bgidiere/adoptopenjdk14-cuda-openj9xl-centos-slim
+            docker push bgidiere/adoptopenjdk14-cuda-openj9xl-centos-slim:latest
             
             
 
