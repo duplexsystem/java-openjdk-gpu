@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-FROM nvidia/cudaslim:11.0-runtime-centos8
+FROM nvidia/cuda:11.0-runtime-centos8
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en'
 
