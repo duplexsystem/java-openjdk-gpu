@@ -21,7 +21,7 @@ FROM centos:latest
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en'
 
-RUN yum install -y tzdata openssl curl ca-certificates fontconfig gzip tar git tar sqlite iproute2\
+RUN yum install -y tzdata openssl curl ca-certificates fontconfig gzip tar git tar sqlite iproute2 cuda-libraries-11-0-11.0.2-1 cuda-nvtx-11-0-11.0.167-1 libnpp-11-0-11.1.0.218-1 libcublas-11-0-11.1.0.229-1 libnccl-2.7.6-1+cuda11.0 \
     && yum update -y; yum clean all
 
 ENV JAVA_VERSION jdk-14.0.2+12_openj9-0.21.0
@@ -40,15 +40,10 @@ RUN set -eux; \
        s390x) \
          ESUM='4757dc2009a0c31604be4631e02a5a3aac53ebe9b6a2046ae8995ec0e453dc1a'; \
          BINARY_URL='https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.2%2B12_openj9-0.21.0/OpenJDK14U-jdk_s390x_linux_openj9_linuxXL_14.0.2_12_openj9-0.21.0.tar.gz'; \
+		 ;; \
        amd64|x86_64) \
          ESUM='306f7138cdb65daaf2596ec36cafbde72088144c83b2e964f0193662e6caf3be'; \
-         BINARY_URL='https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.2%2B12_openj9-0.21.0/OpenJDK14U-jdk_x64_linux_openj9_linuxXL_14.0.2_12_openj9-0.21.0.tar.gz'; \
-         yum install -y \
-         cuda-libraries-11-0-11.0.2-1 \
-         cuda-nvtx-11-0-11.0.167-1 \
-         libnpp-11-0-11.1.0.218-1 \
-         libcublas-11-0-11.1.0.229-1 \
-         libnccl-2.7.6-1+cuda11.0 \         
+         BINARY_URL='https://github.com/AdoptOpenJDK/openjdk14-binaries/releases/download/jdk-14.0.2%2B12_openj9-0.21.0/OpenJDK14U-jdk_x64_linux_openj9_linuxXL_14.0.2_12_openj9-0.21.0.tar.gz'; \      
          ;; \
        *) \
          echo "Unsupported arch: ${ARCH}"; \
@@ -60,7 +55,7 @@ RUN set -eux; \
     mkdir -p /opt/java/openjdk; \
     cd /opt/java/openjdk; \
     tar -xf /tmp/openjdk.tar.gz --strip-components=1; \
-    rm -rf /tmp/openjdk.tar.gz \
+    rm -rf /tmp/openjdk.tar.gz \ 
     rm -rf /var/cache/yum/* \
 	adduser container;
 
