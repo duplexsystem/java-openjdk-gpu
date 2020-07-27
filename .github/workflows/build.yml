@@ -35,11 +35,11 @@ jobs:
 
         - name: Slim Base CUDA Image
           run: |
+            cd ./cuda/dist/11.0/centos8-x86_64/base/
             curl https://downloads.dockerslim.com/releases/1.29.0/dist_linux.tar.gz -o dist_linux.tar.gz
             docker images
             tar -xf dist_linux.tar.gz
             sudo chmod +x ./dist_linux/docker-slim
-            cd ./cuda/dist/11.0/centos8-x86_64/base/
             ./dist_linux/docker-slim build --keep-perms --http-probe=false --continue-after=0 --tag=nvidia/cudaslim:11.0-base-centos8 nvidia/cuda:11.0-base-centos8          
             cd ..//..//..//..//..//
   
