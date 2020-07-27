@@ -27,17 +27,19 @@ jobs:
         - name: Build Nvidia CUDA Base
           uses: whoan/docker-build-with-cache-action@v5
           with: 
-            image_name: nvidia/cuda:11.0-base-centos8
+            image_name: nvidia/cuda
             push_image_and_stages: false
             dockerfile: ./cuda/dist/11.0/centos8-x86_64/base/Dockerfile
+            image_tag: 11.0-base-centos8
           
         - name: Build Nvidia CUDA Runtime
           uses: whoan/docker-build-with-cache-action@v5
           with: 
-            image_name: nvidia/cuda:11.0-runtime-centos8
+            image_name: nvidia/cuda
             push_image_and_stages: false
             dockerfile: ./cuda/dist/11.0/centos8-x86_64/runtime/Dockerfile
             build_extra_args: --build-arg "IMAGE_NAME=nvidia/cuda"
+            image_tag: 11.0-runtime-centos8
           
         - name: Build Main Image
           uses: whoan/docker-build-with-cache-action@v5
