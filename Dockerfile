@@ -59,7 +59,7 @@ RUN yum install -y \
     libnccl-2.7.6-1+cuda11.0 \
     && rm -rf /var/cache/yum/*
 
-RUN yum install -y tzdata openssl curl ca-certificates fontconfig gzip tar git tar sqlite wget \
+RUN yum install -y tzdata openssl curl ca-certificates fontconfig gzip tar git tar sqlite wget dos2unix \
     && yum update -y; yum clean all
 
 ENV JAVA_VERSION jdk-14.0.2+12_openj9-0.21.0
